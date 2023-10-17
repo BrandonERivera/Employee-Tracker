@@ -5,10 +5,10 @@ const { clog } = require('./middleware/clog');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+app.use(clog);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(clog);
 
 const db = mysql.createConnection(
     {
@@ -34,10 +34,44 @@ const questions = [
 inquirer
   .prompt([
     {
-
+      type: 'list',
+      name: 'action',
+      message: "choose a following option.",
+      choices: ["View all departments.","View all roles.","View all employees.", "Add a department.","Add a role.","Add an employee.","Update an employee role."]
     },
-
-])];
+  ])
+  .then(answers => {
+    let action = answers.action;
+    switch (action) {
+      case "View all departments.":
+        console.log(action);
+        //function get request for department
+        break;
+      case  "View all roles.":
+        console.log(action);
+        //function get request for roles
+        break;
+      case  "View all employees.":
+        console.log(action);
+        //function get request for employees
+        break;
+      case "Add a department.":
+        console.log(action);
+        // start new inquierer, that creates an object for a post request for department
+        break;
+      case "Add a role.":
+        console.log(action);
+        //starters new inquierer, that creates an object for a post request for role
+        break;
+      case "Add an employee.":
+        console.log(action);
+        //starts new inquirer, that creates an object for a post request for employee
+        break;
+      case "Update an employee role.":
+        console.log(action);
+        //starts a new inquirer, that creats an object for a put request for employee
+    }
+  })];
 //REFERENCES
 
 // db.query("SELECT * FROM course_names", function (err, results) {
