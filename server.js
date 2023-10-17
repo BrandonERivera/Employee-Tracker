@@ -39,19 +39,19 @@ function questions()
       switch (action) 
       {
         case "View all departments.":
-          db.query("SELECT * FROM department", function (err, results) {
+          db.query("SELECT id AS department_id, name AS department_name FROM department", function (err, results) {
             console.log(results);
             questions();
           });
           break;
         case  "View all roles.":
-          db.query("SELECT * FROM role", function (err, results) {
+          db.query("SELECT role.id AS role_id, title, salary, department.name AS Department_name FROM role JOIN department ON role.department_id = department.id", function (err, results) {
             console.log(results);
             questions();
           });
           break;
         case  "View all employees.":
-          db.query("SELECT * FROM employee", function (err, results) {
+          db.query("SELECT employee.id AS Employee_id, CONCAT(employee.first_name, employee.last_name) AS Employee_NAME, role.title AS Role, role.salary AS Salary, department.name AS Department, CONCAT(employee.manager_id) AS Manager_Id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id", function (err, results) {
             console.log(results);
             questions();
           });
@@ -74,8 +74,8 @@ function questions()
       }
     })
 };
-
-
+//role.salary AS Salary
+//JOIN role ON role.title = role.id Join role r2 ON role.salary = r2.id JOIN department ON department.name = department.id
 app.use((req, res) => {
   res.status(404).end();
 });
