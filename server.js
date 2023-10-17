@@ -21,57 +21,69 @@ const db = mysql.createConnection(
     },
     console.log(`Connected to  company_db`)
   );
+
   
-  app.use((req, res) => {
-    res.status(404).end();
-  });
+function questions()
+{
+  inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'action',
+        message: "choose a following option.",
+        choices: ["View all departments.","View all roles.","View all employees.", "Add a department.","Add a role.","Add an employee.","Update an employee role."]
+      },
+    ])
+    .then(answers => {
+      let action = answers.action;
+      switch (action) 
+      {
+        case "View all departments.":
+          db.query("SELECT * FROM department", function (err, results) {
+            console.log(results);
+            questions();
+          });
+          break;
+        case  "View all roles.":
+          db.query("SELECT * FROM role", function (err, results) {
+            console.log(results);
+            questions();
+          });
+          break;
+        case  "View all employees.":
+          db.query("SELECT * FROM employee", function (err, results) {
+            console.log(results);
+            questions();
+          });
+          break;
+        case "Add a department.":
+          console.log(action);
+          // start new inquierer, that creates an object for a post request for department
+          break;
+        case "Add a role.":
+          console.log(action);
+          //starters new inquierer, that creates an object for a post request for role
+          break;
+        case "Add an employee.":
+          console.log(action);
+          //starts new inquirer, that creates an object for a post request for employee
+          break;
+        case "Update an employee role.":
+          console.log(action);
+          //starts a new inquirer, that creats an object for a put request for employee
+      }
+    })
+};
+
+
+app.use((req, res) => {
+  res.status(404).end();
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  questions;
+  questions()
 });
-const questions = [
-inquirer
-  .prompt([
-    {
-      type: 'list',
-      name: 'action',
-      message: "choose a following option.",
-      choices: ["View all departments.","View all roles.","View all employees.", "Add a department.","Add a role.","Add an employee.","Update an employee role."]
-    },
-  ])
-  .then(answers => {
-    let action = answers.action;
-    switch (action) {
-      case "View all departments.":
-        console.log(action);
-        //function get request for department
-        break;
-      case  "View all roles.":
-        console.log(action);
-        //function get request for roles
-        break;
-      case  "View all employees.":
-        console.log(action);
-        //function get request for employees
-        break;
-      case "Add a department.":
-        console.log(action);
-        // start new inquierer, that creates an object for a post request for department
-        break;
-      case "Add a role.":
-        console.log(action);
-        //starters new inquierer, that creates an object for a post request for role
-        break;
-      case "Add an employee.":
-        console.log(action);
-        //starts new inquirer, that creates an object for a post request for employee
-        break;
-      case "Update an employee role.":
-        console.log(action);
-        //starts a new inquirer, that creats an object for a put request for employee
-    }
-  })];
 //REFERENCES
 
 // db.query("SELECT * FROM course_names", function (err, results) {
