@@ -128,7 +128,7 @@ const questions = () =>
           ])
           .then(answers => {
               const sql = `INSERT INTO employee(role_id, first_name, last_name, manager_id) VALUES (?,?,?,?)`;
-              const params = [answers.firstname, answers.lastname, answers.role_id, answers.manager_id]
+              const params = [answers.role_id, answers.firstname, answers.lastname, answers.manager_id]
               console.log(params)
               db.query(sql, params, (err, result) => {
               console.log(result);
@@ -170,48 +170,3 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   questions()
 });
-//REFERENCES
-
-//DELETE
-// app.delete("/api/movie/:id", (req, res) => {
-//   const sql = `DELETE FROM movies WHERE id = ?`;
-//   const params = [req.params.id];
-
-//   db.query(sql, params, (err, result) => {
-//     if (err) {
-//       res.statusMessage(400).json({ error: res.message });
-//     } else if (!result.affectedRows) {
-//       res.json({
-//         message: "Movie not found",
-//       });
-//     } else {
-//       res.json({
-//         message: "deleted",
-//         changes: result.affectedRows,
-//         id: req.params.id,
-//       });
-//     }
-//   });
-// });
-
-//UPDATE
-// app.put("/api/review/:id", (req, res) => {
-//   const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
-//   const params = [req.body.review, req.params.id];
-
-//   db.query(sql, params, (err, result) => {
-//     if (err) {
-//       res.status(400).json({ error: err.message });
-//     } else if (!result.affectedRows) {
-//       res.json({
-//         message: "Movie not found",
-//       });
-//     } else {
-//       res.json({
-//         message: "success",
-//         data: req.body,
-//         changes: result.affectedRows,
-//       });
-//     }
-//   });
-// });
