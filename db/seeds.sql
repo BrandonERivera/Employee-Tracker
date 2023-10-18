@@ -1,3 +1,4 @@
+-- creates inserts, based on parameters --
 INSERT INTO department (name)
 VALUES ("department 1"),
         ("department 2"),

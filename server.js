@@ -1,3 +1,4 @@
+//getting required
 const express = require("express");
 const inquirer = require('inquirer');
 const path = require('path');
@@ -10,20 +11,21 @@ app.use(clog);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+//connecting to database
 const db = mysql.createConnection(
     {
       host: "localhost",
       user: "root",
-      password: "B0Rivera6966",
+      password: "",
       database: "company_db",
     },
-    console.log(`Connected to  company_db`)
+    console.log(`Connected to company_db`)
   );
 
-  
+//function for questions to start  
 const questions = () =>
 {
+  //creates inquirer asking frist questions
   inquirer
     .prompt([
       {
@@ -35,7 +37,9 @@ const questions = () =>
     ])
     .then(answers => {
       let action = answers.action;
+      //creates a switch statement based on the action above
       switch (action) 
+      //first 3 are select querys, last 3 are insert or update
       {
         case "View all departments.":
           db.query("SELECT id AS department_id, name AS department_name FROM department", function (err, results) {
@@ -57,6 +61,7 @@ const questions = () =>
           break;
         case "Add a department.":
           inquirer
+          //get answers to create a department
             .prompt([
               {
                 name: "name",
@@ -75,6 +80,7 @@ const questions = () =>
           break;
         case "Add a role.":
           inquirer
+          //get answers to create a role
             .prompt([
               {
                 name: "department_id",
@@ -104,6 +110,7 @@ const questions = () =>
           break;
         case "Add an employee.":
           inquirer
+          //get answers to create an empoyee
           .prompt([
             {
               name: "firstname",
@@ -138,6 +145,7 @@ const questions = () =>
           break;
         case "Update an employee role.":
           inquirer
+          //gets paramters on where to change and to what
             .prompt([
             {
               name: "id",
@@ -165,7 +173,7 @@ const questions = () =>
 app.use((req, res) => {
   res.status(404).end();
 });
-
+//runs question on start
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   questions()
